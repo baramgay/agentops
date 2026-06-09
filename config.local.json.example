@@ -1,0 +1,19 @@
+{
+  "_comment": "이 파일을 config.local.json으로 복사한 후 이 PC의 실제 경로로 수정하세요.",
+  "_usage": "memory.md / SKILL.md에서 {WORK_ROOT}, {AGENTS_ROOT} 등 플레이스홀더로 참조됩니다.",
+
+  "WORK_ROOT":   "C:/업무",
+  "AGENTS_ROOT": "C:/업무/agents",
+  "ESTATE_ROOT": "C:/업무/estate",
+  "GIS_ROOT":    "C:/업무/gis_resources",
+  "FONTS_ROOT":  "C:/업무/fonts",
+  "DATA_ROOT":   "C:/업무/estate/data",
+
+  "github": {
+    "_help": "GitHub Issues 양방향 동기화용. token = Fine-grained PAT (repo Issues Read/write). 이 파일(config.local.json)은 gitignore되므로 토큰 커밋 안전. sync_interval_min: 자동 동기화 주기(분), 0이면 수동만.",
+    "token": "",
+    "repo": "baramgay/agent",
+    "sync_enabled": true,
+    "sync_interval_min": 15
+  }
+}

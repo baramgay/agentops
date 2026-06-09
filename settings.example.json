@@ -1,0 +1,54 @@
+{
+  "_comment": "Copy this file to .claude/settings.json and adjust for your machine",
+
+  "model": "claude-sonnet-4-6",
+
+  "env": {
+    "AGENTS_HOME": "C:\\path\\to\\agentops"
+  },
+
+  "autoCompactWindow": 150000,
+
+  "_opusplan_comment": "To use opusplan (Opus reasoning + Sonnet output), set model to 'opusplan'",
+  "_opusplan_settings": {
+    "model": "opusplan",
+    "effortLevel": "high",
+    "MAX_THINKING_TOKENS": "50000"
+  },
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python AGENTS_HOME/scripts/health_check.py --quiet"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python AGENTS_HOME/scripts/session_capture.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python AGENTS_HOME/scripts/wiki_moc_register.py \"$CLAUDE_TOOL_RESULT\""
+          }
+        ]
+      }
+    ]
+  }
+}

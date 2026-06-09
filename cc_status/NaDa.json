@@ -1,0 +1,43 @@
+{
+  "hostname": "NaDa",
+  "reported_at": "2026-05-21 23:35:14",
+  "skills": [
+    "distill",
+    "frontend-design",
+    "graphify",
+    "gstack-context-restore",
+    "gstack-context-save",
+    "gstack-open-gstack-browser",
+    "hwpx-autofill-conversion",
+    "playwright",
+    "pptx-autofill-conversion",
+    "skill-creator",
+    "teach-impeccable",
+    "보고서",
+    "분석",
+    "정보통신담당관실-결과보고"
+  ],
+  "skill_count": 14,
+  "hooks": {
+    "SessionStart": [
+      "메모리 로더"
+    ],
+    "PreToolUse:Bash": [
+      "python -c \"import sys,json,datetime; data=json.load(sys.stdin) if not sys.stdin.",
+      "hookify pretooluse 분석기"
+    ],
+    "PostToolUse:Write": [
+      "python -c \"import sys,json,datetime; data=json.load(sys.stdin) if not sys.stdin.",
+      "hookify posttooluse 분석기"
+    ]
+  },
+  "hook_count": 5,
+  "recently_used": [
+    "add-skill",
+    "distill",
+    "frontend-design",
+    "gstack-open-gstack-browser",
+    "playwright",
+    "teach-impeccable"
+  ]
+}

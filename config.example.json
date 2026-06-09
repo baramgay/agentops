@@ -1,0 +1,24 @@
+{
+  "_comment": "이 파일을 복사하여 config.local.json으로 저장하세요. config.local.json은 gitignore됩니다.",
+  "machine_id": "PC-이름-또는-설명",
+  "workspace_root": "AGENTS_HOME",
+  "data_root": "AGENTS_HOME/data",
+  "output_root": "AGENTS_HOME/output",
+  "python_path": "python",
+  "r_path": "Rscript",
+  "paths": {
+    "raw_data": "{data_root}/raw",
+    "processed_data": "{data_root}/processed",
+    "analysis_output": "{output_root}/analysis",
+    "webapp_output": "{output_root}/webapp",
+    "pptx_output": "{output_root}/pptx",
+    "reports": "{output_root}/reports"
+  },
+  "github": {
+    "_help": "GitHub Issues 양방향 동기화용. token = Fine-grained PAT (repo Issues Read/write). config.local.json은 gitignore되므로 토큰 커밋 안전. 환경변수 GITHUB_TOKEN/GITHUB_REPO로도 주입 가능. sync_interval_min: 자동 동기화 주기(분), 0이면 수동만.",
+    "token": "",
+    "repo": "your-github-username/agent",
+    "sync_enabled": true,
+    "sync_interval_min": 15
+  }
+}

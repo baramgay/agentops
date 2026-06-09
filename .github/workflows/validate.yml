@@ -1,0 +1,62 @@
+name: Validate Agent System
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'index.html'
+      - 'metaverse.html'
+      - 'agent_status.json'
+      - 'agents/**/*.md'
+      - 'scripts/validate.py'
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt 2>/dev/null || pip install openai python-dotenv 2>/dev/null || true
+
+      - name: 검증 실행
+        shell: bash
+        run: |
+          python scripts/validate.py 2>&1 | tee validate_output.txt
+          EXIT_CODE=${PIPESTATUS[0]}
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "::error::validate.py 검증 실패 — 위 오류를 확인하세요"
+            cat validate_output.txt
+            exit $EXIT_CODE
+          fi
+
+      - name: 검증 결과 요약
+        if: always()
+        run: |
+          if [ -f validate_output.txt ]; then
+            echo "## 검증 결과" >> $GITHUB_STEP_SUMMARY
+            grep -E "결과:|통과|실패|OK|FAIL|체크|passed|failed" validate_output.txt >> $GITHUB_STEP_SUMMARY || true
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "전체 출력:" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            tail -20 validate_output.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi

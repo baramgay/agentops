@@ -1,0 +1,53 @@
+name: Issue API Test
+
+# 이슈 트래커 서버 코드/테스트 변경 시 회귀 테스트 자동 실행.
+# 무거운 의존성(chromadb·sentence-transformers)은 지연 import라 최소 패키지만 설치 → 빠름.
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'scripts/api_server.py'
+      - 'scripts/test_issues.py'
+      - 'scripts/github_sync.py'
+      - 'scripts/test_github_sync.py'
+      - 'requirements.txt'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'scripts/api_server.py'
+      - 'scripts/test_issues.py'
+      - 'scripts/github_sync.py'
+      - 'scripts/test_github_sync.py'
+      - 'requirements.txt'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: issue-api-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 최소 의존성 설치 (서버 기동용)
+        run: pip install "fastapi>=0.110.0" "uvicorn[standard]>=0.27.0" "pydantic>=2.0.0"
+
+      - name: 이슈 API 회귀 테스트 (격리 서버)
+        run: python scripts/test_issues.py
+
+      - name: github_sync 회귀 테스트 (네트워크 모킹)
+        run: python scripts/test_github_sync.py

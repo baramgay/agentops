@@ -1,0 +1,14 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.0.0
+openai>=1.0.0
+
+# 환경변수 로드 (api_server.py, llm_provider.py)
+python-dotenv>=1.0.0
+
+# Windows 알림 (api_server.py — optional, 미설치 시 fallback 사용)
+win10toast>=0.9; sys_platform == "win32"
+
+# 벡터 메모리 (mem0_client.py — optional, 미설치 시 API 엔드포인트에서 graceful 처리)
+chromadb>=0.4.0
+sentence-transformers>=2.0.0

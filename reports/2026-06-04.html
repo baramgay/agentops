@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Organization 일간 업무 보고 — 2026년 6월 4일 (목)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      font-size: 14px;
+      color: #1a1a2e;
+      background: #f5f7fa;
+      line-height: 1.6;
+    }
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+    /* 헤더 */
+    .report-header {
+      background: linear-gradient(135deg, #1a3a6e 0%, #2557a7 100%);
+      color: #fff;
+      border-radius: 10px;
+      padding: 28px 32px 22px;
+      margin-bottom: 28px;
+    }
+    .report-header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+    .report-header .subtitle {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+    .report-header .meta {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 8px;
+    }
+    /* 섹션 */
+    .section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a3a6e;
+      border-left: 4px solid #2557a7;
+      padding-left: 10px;
+      margin-bottom: 16px;
+    }
+    /* KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .kpi-card {
+      background: #f0f4ff;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid #d0daf5;
+    }
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #2557a7;
+      line-height: 1.2;
+    }
+    .kpi-label {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+    .kpi-highlight {
+      background: #fff8e1;
+      border: 1px solid #ffd54f;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+    .badge {
+      background: #ffd54f;
+      color: #5d4037;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .muted { color: #777; }
+    /* 테이블 */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: #1a3a6e;
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .data-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: #f8f9fc; }
+    .center { text-align: center; }
+    .small { font-size: 12px; color: #555; }
+    /* 진행률 바 */
+    .progress-wrap {
+      background: #eee;
+      border-radius: 4px;
+      height: 18px;
+      position: relative;
+      min-width: 80px;
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, #2557a7, #42a5f5);
+      border-radius: 4px;
+      height: 100%;
+    }
+    .progress-label {
+      position: absolute;
+      right: 4px;
+      top: 1px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+    }
+    /* 에이전트 섹션 */
+    .agent-section {
+      border: 1px solid #e0e8f0;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .agent-header {
+      background: #f0f4ff;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .agent-name { font-weight: 700; font-size: 13px; color: #1a3a6e; }
+    .agent-id { font-size: 11px; color: #888; }
+    .team-badge {
+      background: #e3f2fd;
+      color: #1565c0;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .count-badge {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: auto;
+    }
+    .task-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .task-table td {
+      padding: 6px 14px;
+      border-top: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+    .task-table tr:nth-child(even) td { background: #fafbff; }
+    .time-cell {
+      color: #888;
+      width: 52px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .empty-msg { color: #aaa; font-style: italic; padding: 10px 0; }
+    /* 히트맵 */
+    .heatmap-wrap {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    /* 푸터 */
+    .report-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 32px;
+    }
+    @media (max-width: 700px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <!-- 헤더 -->
+  <div class="report-header">
+    <h1>Your Organization AI 에이전트 일간 업무 보고</h1>
+    <div class="subtitle">기준일: 2026년 6월 4일 (목)</div>
+    <div class="meta">생성 시각: 2026-06-04 03:26 | 데이터 출처: work_log.jsonl</div>
+  </div>
+
+  <!-- KPI 요약 -->
+  <div class="section">
+    <div class="section-title">주요 지표 (KPI)</div>
+    
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-value">15</div>
+        <div class="kpi-label">총 착수 건수</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">26</div>
+        <div class="kpi-label">완료 건수</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">63.4%</div>
+        <div class="kpi-label">완료율</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">2</div>
+        <div class="kpi-label">활동 팀 수</div>
+      </div>
+    </div>
+    <div class="kpi-highlight">
+      <span class="badge">최다 활동 에이전트</span>
+      <strong>총괄 지휘관</strong>
+      <span class="muted">— 9건 완료</span>
+    </div>
+
+  </div>
+
+  <!-- 팀별 활동 -->
+  <div class="section">
+    <div class="section-title">팀별 활동 요약</div>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>팀</th><th>착수</th><th>완료</th><th>진행중</th><th>완료율</th><th>참여 에이전트</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><strong>총괄</strong></td>
+        <td class="center">14</td>
+        <td class="center">9</td>
+        <td class="center">5</td>
+        <td>
+          <div class="progress-wrap">
+            <div class="progress-bar" style="width:64%"></div>
+            <span class="progress-label">64%</span>
+          </div>
+        </td>
+        <td class="small">총괄 지휘관</td>
+      </tr>
+      <tr>
+        <td><strong>개발팀</strong></td>
+        <td class="center">27</td>
+        <td class="center">17</td>
+        <td class="center">10</td>
+        <td>
+          <div class="progress-wrap">
+            <div class="progress-bar" style="width:62%"></div>
+            <span class="progress-label">63%</span>
+          </div>
+        </td>
+        <td class="small">백엔드, 배포/CI-CD, 프론트엔드, 개발 팀 리드, 통계 패키지, QA 테스트</td>
+      </tr></tbody>
+    </table>
+
+  </div>
+
+  <!-- 에이전트별 완료 작업 -->
+  <div class="section">
+    <div class="section-title">에이전트별 완료 작업 목록</div>
+    
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">총괄 지휘관</span>
+        <span class="agent-id">(orchestrator)</span>
+        <span class="team-badge">총괄</span>
+        <span class="count-badge">9건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>00:26</td><td>라이브 스트립 최적화 완료</td></tr><tr><td class='time-cell'>00:27</td><td>선제 성능검토 완료 — 주요 렌더경로 캐시·병렬화 일괄</td></tr><tr><td class='time-cell'>00:30</td><td>승인 — v3.3.1 릴리스에 Windows 앱 첨부·배포 완성</td></tr><tr><td class='time-cell'>09:05</td><td>승인 완료. 접근성 보강+CI 유지보수 완료, deprecation 경고 해소.</td></tr><tr><td class='time-cell'>09:08</td><td>승인 — 프로파일링 계측 + 병목 성격 규명</td></tr><tr><td class='time-cell'>09:19</td><td>지도 전체선택 추가 승인</td></tr><tr><td class='time-cell'>09:34</td><td>AI 고도화 승인 — API만 넣으면 동작하는 구조</td></tr><tr><td class='time-cell'>09:52</td><td>승인 — 누리스탯 전면 리네임 완료·CI 그린(c91f02d)·메모리 기록</td></tr><tr><td class='time-cell'>09:56</td><td>GitHub 동기화 Phase1~4 대규모 pull 검토·검증 완료 (구문·시크릿·이슈17·validate92·서버·브라우저 전부 통과)</td></tr></tbody></table>
+    </div>
+
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">개발 팀 리드</span>
+        <span class="agent-id">(lead-dev)</span>
+        <span class="team-badge">개발팀</span>
+        <span class="count-badge">7건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>00:26</td><td>상신</td></tr><tr><td class='time-cell'>00:27</td><td>성능 sweep 완료 검토 상신</td></tr><tr><td class='time-cell'>00:30</td><td>릴리스 자산 첨부 검토 완료 — 데스크톱 앱 배포 완성</td></tr><tr><td class='time-cell'>09:05</td><td>R239~R242(a11y+CI) 검토 완료</td></tr><tr><td class='time-cell'>09:08</td><td>프로파일링 도입·원인규명(네트워크 바운드) 상신</td></tr><tr><td class='time-cell'>09:34</td><td>제공사무관·위치인지·데이터주입 하이브리드 검증 상신</td></tr><tr><td class='time-cell'>09:52</td><td>리네임 검토 완료 — 전 영역 일관·전 게이트 그린</td></tr></tbody></table>
+    </div>
+
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">프론트엔드</span>
+        <span class="agent-id">(frontend)</span>
+        <span class="team-badge">개발팀</span>
+        <span class="count-badge">3건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>00:26</td><td>이슈 탭 라이브 스트립: WS 캐시 우선 렌더로 중복 /api/status 호출 제거 + 푸시 실시간 반영</td></tr><tr><td class='time-cell'>09:19</td><td>데스크톱 지도 섹션에 ✅전체선택/⬜전체해제 추가(사이드바 _set_all_layers 재사용, on_click). 64테스트·스모크13/13</td></tr><tr><td class='time-cell'>09:34</td><td>AI 페이지 재배선 — 클로드 하드의존 제거, llm.chat_stream 사용, 위치인지 시스템프롬프트, 설정안내 제공사교체형으로. openai 의존성·secrets.example 갱신. 64테스트·스모크13/13</td></tr></tbody></table>
+    </div>
+
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">백엔드</span>
+        <span class="agent-id">(backend)</span>
+        <span class="team-badge">개발팀</span>
+        <span class="count-badge">3건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>00:27</td><td>pages/1 저상버스 실시간조회 12개 순차API→병렬화. 잔여 점검: 통계 이미 병렬·기타 단일호출 캐시됨 → 주요 병목 소진. 64테스트·스모크13/13</td></tr><tr><td class='time-cell'>09:08</td><td>실배포 프로파일링 — utils/perf.py(EUM_PROFILE 게이트, 오버헤드0)+핫패스 계측(모바일맵 로드·build_map, 노선메타). 측정결과: 지연은 네트워크(데이터API) 바운드, build_map…</td></tr><tr><td class='time-cell'>09:34</td><td>utils/llm.py 제공사 교체형 추상화(OpenAI호환+Anthropic, LLM_API_KEY/PROVIDER/MODEL/BASE_URL) + 위치기반 데이터 컨텍스트(_nearest로 현재위치 인근 시설 주…</td></tr></tbody></table>
+    </div>
+
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">배포/CI-CD</span>
+        <span class="agent-id">(devops)</span>
+        <span class="team-badge">개발팀</span>
+        <span class="count-badge">2건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>00:30</td><td>v3.3.1 릴리스에 Windows 데스크톱 앱 첨부 완료 — StatWorkbench-v3.3.1-windows-x64.zip(190MB) 업로드, 다운로드·실행 안내 추가. 설치불필요 exe 배포 완성</td></tr><tr><td class='time-cell'>09:05</td><td>CI Node 유지보수 완료: 빌드 node 20→22(R241) + 액션 Node24 런타임 강제로 deprecation 경고 해소(R242). CI 녹색·경고 0</td></tr></tbody></table>
+    </div>
+
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">QA 테스트</span>
+        <span class="agent-id">(tester-qa)</span>
+        <span class="team-badge">개발팀</span>
+        <span class="count-badge">1건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>00:31</td><td>a11y 스캔·수정 완료: 사전기획 라벨3+토글스위치(R239), 파일input 3곳 aria-label(R240). 전 페이지 0건 목표 재검증</td></tr></tbody></table>
+    </div>
+
+    <div class="agent-section">
+      <div class="agent-header">
+        <span class="agent-name">통계 패키지</span>
+        <span class="agent-id">(statworkbench)</span>
+        <span class="team-badge">개발팀</span>
+        <span class="count-badge">1건 완료</span>
+      </div>
+      <table class="task-table"><tbody><tr><td class='time-cell'>09:52</td><td>전면 리네임 statworkbench→nuristat(누리스탯) 완료 — 폴더2곳·325파일·import·pyproject·spec·CI·문서·표시명. 한글 창제목 누리스탯. 커밋전 4483 passed·ruff·m…</td></tr></tbody></table>
+    </div>
+
+  </div>
+
+  <!-- 시간대별 활동 히트맵 -->
+  <div class="section">
+    <div class="section-title">시간대별 활동 분포 (건수)</div>
+    <div class="heatmap-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="880" height="84" style="max-width:100%;overflow:visible"><rect x="8" y="28" width="34" height="34" rx="4" fill="rgb(124,146,205)" stroke="#ddd" stroke-width="1"/><text x="25" y="50" text-anchor="middle" font-size="11" fill="#333">16</text><text x="25" y="22" text-anchor="middle" font-size="10" fill="#666">0</text><rect x="44" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="61" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="61" y="22" text-anchor="middle" font-size="10" fill="#666">1</text><rect x="80" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="97" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="97" y="22" text-anchor="middle" font-size="10" fill="#666">2</text><rect x="116" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="133" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="133" y="22" text-anchor="middle" font-size="10" fill="#666">3</text><rect x="152" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="169" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="169" y="22" text-anchor="middle" font-size="10" fill="#666">4</text><rect x="188" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="205" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="205" y="22" text-anchor="middle" font-size="10" fill="#666">5</text><rect x="224" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="241" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="241" y="22" text-anchor="middle" font-size="10" fill="#666">6</text><rect x="260" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="277" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="277" y="22" text-anchor="middle" font-size="10" fill="#666">7</text><rect x="296" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="313" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="313" y="22" text-anchor="middle" font-size="10" fill="#666">8</text><rect x="332" y="28" width="34" height="34" rx="4" fill="rgb(55,85,175)" stroke="#ddd" stroke-width="1"/><text x="349" y="50" text-anchor="middle" font-size="11" fill="#333">26</text><text x="349" y="22" text-anchor="middle" font-size="10" fill="#666">9</text><rect x="368" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="385" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="385" y="22" text-anchor="middle" font-size="10" fill="#666">10</text><rect x="404" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="421" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="421" y="22" text-anchor="middle" font-size="10" fill="#666">11</text><rect x="440" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="457" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="457" y="22" text-anchor="middle" font-size="10" fill="#666">12</text><rect x="476" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="493" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="493" y="22" text-anchor="middle" font-size="10" fill="#666">13</text><rect x="512" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="529" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="529" y="22" text-anchor="middle" font-size="10" fill="#666">14</text><rect x="548" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="565" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="565" y="22" text-anchor="middle" font-size="10" fill="#666">15</text><rect x="584" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="601" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="601" y="22" text-anchor="middle" font-size="10" fill="#666">16</text><rect x="620" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="637" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="637" y="22" text-anchor="middle" font-size="10" fill="#666">17</text><rect x="656" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="673" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="673" y="22" text-anchor="middle" font-size="10" fill="#666">18</text><rect x="692" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="709" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="709" y="22" text-anchor="middle" font-size="10" fill="#666">19</text><rect x="728" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="745" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="745" y="22" text-anchor="middle" font-size="10" fill="#666">20</text><rect x="764" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="781" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="781" y="22" text-anchor="middle" font-size="10" fill="#666">21</text><rect x="800" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="817" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="817" y="22" text-anchor="middle" font-size="10" fill="#666">22</text><rect x="836" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="853" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="853" y="22" text-anchor="middle" font-size="10" fill="#666">23</text></svg></div>
+    <p class="small" style="margin-top:8px;">* 가로축: 0~23시, 셀 값은 해당 시간대 전체 상태 변경 건수</p>
+  </div>
+
+  <div class="report-footer">
+    Your Organization 에이전트 시스템 — 자동 생성 보고서 &nbsp;|&nbsp; 2026-06-04 03:26
+  </div>
+</div>
+</body>
+</html>

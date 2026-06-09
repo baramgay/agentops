@@ -1,0 +1,117 @@
+{
+  "computed_at": "2026-05-22 10:43:09",
+  "machines": [
+    {
+      "hostname": "DESKTOP-2M3LECS",
+      "reported_at": "2026-05-22 10:42:49",
+      "skill_count": 1,
+      "skills": [
+        "gstack"
+      ]
+    },
+    {
+      "hostname": "NaDa",
+      "reported_at": "2026-05-21 23:35:14",
+      "skill_count": 14,
+      "skills": [
+        "distill",
+        "frontend-design",
+        "graphify",
+        "gstack-context-restore",
+        "gstack-context-save",
+        "gstack-open-gstack-browser",
+        "hwpx-autofill-conversion",
+        "playwright",
+        "pptx-autofill-conversion",
+        "skill-creator",
+        "teach-impeccable",
+        "보고서",
+        "분석",
+        "정보통신담당관실-결과보고"
+      ]
+    }
+  ],
+  "machine_count": 2,
+  "union_skills": [
+    "distill",
+    "frontend-design",
+    "graphify",
+    "gstack",
+    "gstack-context-restore",
+    "gstack-context-save",
+    "gstack-open-gstack-browser",
+    "hwpx-autofill-conversion",
+    "playwright",
+    "pptx-autofill-conversion",
+    "skill-creator",
+    "teach-impeccable",
+    "보고서",
+    "분석",
+    "정보통신담당관실-결과보고"
+  ],
+  "union_count": 15,
+  "recently_used": [
+    "EnterPlanMode",
+    "add-skill",
+    "distill",
+    "frontend-design",
+    "gstack-open-gstack-browser",
+    "mcp__sequential-thinking__sequentialthinking",
+    "plan",
+    "playwright",
+    "skill-creator",
+    "superpowers:brainstorming",
+    "superpowers:dispatching-parallel-agents",
+    "superpowers:systematic-debugging",
+    "superpowers:verification-before-completion",
+    "superpowers:writing-plans",
+    "teach-impeccable"
+  ],
+  "skill_presence": {
+    "distill": [
+      "NaDa"
+    ],
+    "frontend-design": [
+      "NaDa"
+    ],
+    "graphify": [
+      "NaDa"
+    ],
+    "gstack": [
+      "DESKTOP-2M3LECS"
+    ],
+    "gstack-context-restore": [
+      "NaDa"
+    ],
+    "gstack-context-save": [
+      "NaDa"
+    ],
+    "gstack-open-gstack-browser": [
+      "NaDa"
+    ],
+    "hwpx-autofill-conversion": [
+      "NaDa"
+    ],
+    "playwright": [
+      "NaDa"
+    ],
+    "pptx-autofill-conversion": [
+      "NaDa"
+    ],
+    "skill-creator": [
+      "NaDa"
+    ],
+    "teach-impeccable": [
+      "NaDa"
+    ],
+    "보고서": [
+      "NaDa"
+    ],
+    "분석": [
+      "NaDa"
+    ],
+    "정보통신담당관실-결과보고": [
+      "NaDa"
+    ]
+  }
+}

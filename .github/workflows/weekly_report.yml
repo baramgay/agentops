@@ -1,0 +1,51 @@
+name: 주간 보고서 자동 생성
+
+on:
+  schedule:
+    # 매주 월요일 00:00 UTC = 09:00 KST
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+    inputs:
+      week:
+        description: '기준 주 (YYYY-WNN 형식, 예: 2026-W22)'
+        required: false
+        default: ''
+
+concurrency:
+  group: weekly-report
+  cancel-in-progress: false
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt 2>/dev/null || true
+
+      - name: 주간 보고서 생성
+        run: |
+          if [ -n "${{ github.event.inputs.week }}" ]; then
+            python scripts/weekly_report.py --week "${{ github.event.inputs.week }}"
+          else
+            python scripts/weekly_report.py
+          fi
+
+      - name: 보고서 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git diff --cached --quiet || git commit -m "chore: 주간 보고서 자동 생성 $(date +%Y-%m-%d)"
+          git pull --rebase origin master
+          git push origin master

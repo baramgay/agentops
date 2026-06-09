@@ -1,0 +1,23 @@
+# 자동 머지 충돌 해결 — sync.py 가 매번 재생성하는 파일들
+scripts/md_content.json merge=ours
+index.html merge=ours
+# 실시간 상태 파일 — 충돌 시 로컬 버전 유지 (라이브 상태 보호)
+agent_status.json merge=ours
+
+# 텍스트 파일: 저장은 LF, 체크아웃은 OS 기본 (Windows=CRLF, Unix=LF) 자동 변환
+# eol=lf 명시 제거 → 경고 노이즈 해소, 협업자 OS별 차이 자동 처리
+* text=auto
+
+# 바이너리 명시 (변환 방지)
+# *.bat: cp949(EUC-KR) 인코딩 + CRLF 보존 — git EOL/인코딩 변환 방지 (한글 런처 깨짐 방지)
+*.bat binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+*.gz binary

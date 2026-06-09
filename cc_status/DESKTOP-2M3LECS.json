@@ -1,0 +1,21 @@
+{
+  "hostname": "DESKTOP-2M3LECS",
+  "reported_at": "2026-05-22 10:42:49",
+  "skills": [
+    "gstack"
+  ],
+  "skill_count": 1,
+  "hooks": {},
+  "hook_count": 0,
+  "recently_used": [
+    "EnterPlanMode",
+    "mcp__sequential-thinking__sequentialthinking",
+    "plan",
+    "skill-creator",
+    "superpowers:brainstorming",
+    "superpowers:dispatching-parallel-agents",
+    "superpowers:systematic-debugging",
+    "superpowers:verification-before-completion",
+    "superpowers:writing-plans"
+  ]
+}

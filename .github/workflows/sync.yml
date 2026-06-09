@@ -1,0 +1,50 @@
+name: Auto Rebuild index.html
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'agent_status.json'
+      - 'agents/**/*.md'
+      - 'agents/**/role.md'
+      - 'agents/**/memory.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build index.html
+        run: python scripts/build_html.py
+
+      - name: Commit and push (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit. Skipping."
+          else
+            git commit -m "ci: auto-rebuild index.html [skip ci]"
+            git push origin master
+          fi

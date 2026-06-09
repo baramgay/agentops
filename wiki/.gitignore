@@ -1,0 +1,6 @@
+# 옵시디언 휘발성 UI 상태 (설정은 추적, 작업공간/캐시는 제외)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+_attachments/

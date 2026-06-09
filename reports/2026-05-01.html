@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Organization 일간 업무 보고 — 2026년 5월 1일 (금)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      font-size: 14px;
+      color: #1a1a2e;
+      background: #f5f7fa;
+      line-height: 1.6;
+    }
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+    /* 헤더 */
+    .report-header {
+      background: linear-gradient(135deg, #1a3a6e 0%, #2557a7 100%);
+      color: #fff;
+      border-radius: 10px;
+      padding: 28px 32px 22px;
+      margin-bottom: 28px;
+    }
+    .report-header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+    .report-header .subtitle {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+    .report-header .meta {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 8px;
+    }
+    /* 섹션 */
+    .section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a3a6e;
+      border-left: 4px solid #2557a7;
+      padding-left: 10px;
+      margin-bottom: 16px;
+    }
+    /* KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .kpi-card {
+      background: #f0f4ff;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid #d0daf5;
+    }
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #2557a7;
+      line-height: 1.2;
+    }
+    .kpi-label {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+    .kpi-highlight {
+      background: #fff8e1;
+      border: 1px solid #ffd54f;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+    .badge {
+      background: #ffd54f;
+      color: #5d4037;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .muted { color: #777; }
+    /* 테이블 */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: #1a3a6e;
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .data-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: #f8f9fc; }
+    .center { text-align: center; }
+    .small { font-size: 12px; color: #555; }
+    /* 진행률 바 */
+    .progress-wrap {
+      background: #eee;
+      border-radius: 4px;
+      height: 18px;
+      position: relative;
+      min-width: 80px;
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, #2557a7, #42a5f5);
+      border-radius: 4px;
+      height: 100%;
+    }
+    .progress-label {
+      position: absolute;
+      right: 4px;
+      top: 1px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+    }
+    /* 에이전트 섹션 */
+    .agent-section {
+      border: 1px solid #e0e8f0;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .agent-header {
+      background: #f0f4ff;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .agent-name { font-weight: 700; font-size: 13px; color: #1a3a6e; }
+    .agent-id { font-size: 11px; color: #888; }
+    .team-badge {
+      background: #e3f2fd;
+      color: #1565c0;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .count-badge {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: auto;
+    }
+    .task-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .task-table td {
+      padding: 6px 14px;
+      border-top: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+    .task-table tr:nth-child(even) td { background: #fafbff; }
+    .time-cell {
+      color: #888;
+      width: 52px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .empty-msg { color: #aaa; font-style: italic; padding: 10px 0; }
+    /* 히트맵 */
+    .heatmap-wrap {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    /* 푸터 */
+    .report-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 32px;
+    }
+    @media (max-width: 700px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <!-- 헤더 -->
+  <div class="report-header">
+    <h1>Your Organization AI 에이전트 일간 업무 보고</h1>
+    <div class="subtitle">기준일: 2026년 5월 1일 (금)</div>
+    <div class="meta">생성 시각: 2026-05-28 00:30 | 데이터 출처: work_log.jsonl</div>
+  </div>
+
+  <!-- KPI 요약 -->
+  <div class="section">
+    <div class="section-title">주요 지표 (KPI)</div>
+    
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-value">0</div>
+        <div class="kpi-label">총 착수 건수</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">0</div>
+        <div class="kpi-label">완료 건수</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">0.0%</div>
+        <div class="kpi-label">완료율</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">0</div>
+        <div class="kpi-label">활동 팀 수</div>
+      </div>
+    </div>
+    <div class="kpi-highlight">
+      <span class="badge">최다 활동 에이전트</span>
+      <strong>해당 없음</strong>
+      <span class="muted">— 활동 없음</span>
+    </div>
+
+  </div>
+
+  <!-- 팀별 활동 -->
+  <div class="section">
+    <div class="section-title">팀별 활동 요약</div>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>팀</th><th>착수</th><th>완료</th><th>진행중</th><th>완료율</th><th>참여 에이전트</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+  </div>
+
+  <!-- 에이전트별 완료 작업 -->
+  <div class="section">
+    <div class="section-title">에이전트별 완료 작업 목록</div>
+    <p class="empty-msg">당일 완료된 작업이 없습니다.</p>
+  </div>
+
+  <!-- 시간대별 활동 히트맵 -->
+  <div class="section">
+    <div class="section-title">시간대별 활동 분포 (건수)</div>
+    <div class="heatmap-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="880" height="84" style="max-width:100%;overflow:visible"><rect x="8" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="25" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="25" y="22" text-anchor="middle" font-size="10" fill="#666">0</text><rect x="44" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="61" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="61" y="22" text-anchor="middle" font-size="10" fill="#666">1</text><rect x="80" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="97" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="97" y="22" text-anchor="middle" font-size="10" fill="#666">2</text><rect x="116" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="133" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="133" y="22" text-anchor="middle" font-size="10" fill="#666">3</text><rect x="152" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="169" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="169" y="22" text-anchor="middle" font-size="10" fill="#666">4</text><rect x="188" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="205" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="205" y="22" text-anchor="middle" font-size="10" fill="#666">5</text><rect x="224" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="241" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="241" y="22" text-anchor="middle" font-size="10" fill="#666">6</text><rect x="260" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="277" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="277" y="22" text-anchor="middle" font-size="10" fill="#666">7</text><rect x="296" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="313" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="313" y="22" text-anchor="middle" font-size="10" fill="#666">8</text><rect x="332" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="349" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="349" y="22" text-anchor="middle" font-size="10" fill="#666">9</text><rect x="368" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="385" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="385" y="22" text-anchor="middle" font-size="10" fill="#666">10</text><rect x="404" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="421" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="421" y="22" text-anchor="middle" font-size="10" fill="#666">11</text><rect x="440" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="457" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="457" y="22" text-anchor="middle" font-size="10" fill="#666">12</text><rect x="476" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="493" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="493" y="22" text-anchor="middle" font-size="10" fill="#666">13</text><rect x="512" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="529" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="529" y="22" text-anchor="middle" font-size="10" fill="#666">14</text><rect x="548" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="565" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="565" y="22" text-anchor="middle" font-size="10" fill="#666">15</text><rect x="584" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="601" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="601" y="22" text-anchor="middle" font-size="10" fill="#666">16</text><rect x="620" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="637" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="637" y="22" text-anchor="middle" font-size="10" fill="#666">17</text><rect x="656" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="673" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="673" y="22" text-anchor="middle" font-size="10" fill="#666">18</text><rect x="692" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="709" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="709" y="22" text-anchor="middle" font-size="10" fill="#666">19</text><rect x="728" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="745" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="745" y="22" text-anchor="middle" font-size="10" fill="#666">20</text><rect x="764" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="781" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="781" y="22" text-anchor="middle" font-size="10" fill="#666">21</text><rect x="800" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="817" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="817" y="22" text-anchor="middle" font-size="10" fill="#666">22</text><rect x="836" y="28" width="34" height="34" rx="4" fill="rgb(235,245,255)" stroke="#ddd" stroke-width="1"/><text x="853" y="50" text-anchor="middle" font-size="11" fill="#333"></text><text x="853" y="22" text-anchor="middle" font-size="10" fill="#666">23</text></svg></div>
+    <p class="small" style="margin-top:8px;">* 가로축: 0~23시, 셀 값은 해당 시간대 전체 상태 변경 건수</p>
+  </div>
+
+  <div class="report-footer">
+    Your Organization 에이전트 시스템 — 자동 생성 보고서 &nbsp;|&nbsp; 2026-05-28 00:30
+  </div>
+</div>
+</body>
+</html>

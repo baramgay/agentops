@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>월간 보고서 2026년 05월</title>
+<style>
+body{font-family:'Pretendard','Malgun Gothic',sans-serif;background:#0f172a;color:#e2e8f0;margin:0;padding:24px}
+h1{font-size:24px;color:#f8fafc;margin-bottom:4px}
+.sub{color:#64748b;font-size:13px;margin-bottom:28px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.card{background:#1e293b;border-radius:12px;padding:20px;text-align:center}
+.card .n{font-size:38px;font-weight:700;color:#38bdf8}
+.card .l{font-size:12px;color:#64748b;margin-top:4px}
+.section{background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px}
+h2{font-size:15px;color:#94a3b8;margin:0 0 16px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:100px}
+.bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar{width:36px;background:#3B82F6;border-radius:4px 4px 0 0;min-height:2px}
+.bar-label{font-size:10px;color:#64748b;text-align:center}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px;font-size:12px;color:#64748b;border-bottom:1px solid #334155}
+td{padding:8px;font-size:13px;border-bottom:1px solid #1e293b}
+.num{text-align:right;color:#38bdf8;font-weight:600}
+.team-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.team-bars{display:flex;flex-direction:column;gap:10px}
+.tbar-row{display:flex;align-items:center;gap:10px}
+.tbar-name{width:60px;font-size:13px;color:#94a3b8}
+.tbar{flex:1;height:14px;background:#0f172a;border-radius:4px;overflow:hidden}
+.tbar-fill{height:100%;border-radius:4px}
+.tbar-val{width:40px;font-size:12px;color:#64748b;text-align:right}
+.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.hm-cell{aspect-ratio:1;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#64748b;cursor:default}
+.hm-cell span{pointer-events:none}
+</style>
+</head>
+<body>
+<h1>월간 성과 보고서</h1>
+<div class="sub">2026-05-01 ~ 2026-05-31 · 2026년 05월 · Your Organization 에이전트 시스템</div>
+
+<div class="cards">
+  <div class="card"><div class="n">354</div><div class="l">총 완료 작업</div></div>
+  <div class="card"><div class="n">383</div><div class="l">총 진행 이력</div></div>
+  <div class="card"><div class="n">13</div><div class="l">활동 에이전트</div></div>
+  <div class="card"><div class="n">48%</div><div class="l">완료율</div></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+  <div class="section">
+    <h2>주별 완료 추이</h2>
+    <div class="chart"><div class="bar-wrap"><div class="bar" style="height:80px" title="354건"></div><div class="bar-label">W21<br>354</div></div></div>
+  </div>
+  <div class="section">
+    <h2>팀별 완료 현황</h2>
+    <div class="team-bars"><div class="tbar-row"><div class="tbar-name">Dev</div><div class="tbar"><div class="tbar-fill" style="width:100%;background:#10B981"></div></div><div class="tbar-val">268건</div></div><div class="tbar-row"><div class="tbar-name">OC</div><div class="tbar"><div class="tbar-fill" style="width:30%;background:#8B5CF6"></div></div><div class="tbar-val">82건</div></div><div class="tbar-row"><div class="tbar-name">Data</div><div class="tbar"><div class="tbar-fill" style="width:1%;background:#3B82F6"></div></div><div class="tbar-val">4건</div></div></div>
+  </div>
+</div>
+
+<div class="section" style="margin-bottom:24px;">
+  <h2>일별 활동 히트맵</h2>
+  <div style="font-size:11px;color:#64748b;margin-bottom:8px;">일별 완료 작업 수 (진할수록 많음)</div>
+  <div class="heatmap"><div class="hm-cell" style="background:#161B22" title="2026-05-01: 0건"><span>1</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-02: 0건"><span>2</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-03: 0건"><span>3</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-04: 0건"><span>4</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-05: 0건"><span>5</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-06: 0건"><span>6</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-07: 0건"><span>7</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-08: 0건"><span>8</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-09: 0건"><span>9</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-10: 0건"><span>10</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-11: 0건"><span>11</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-12: 0건"><span>12</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-13: 0건"><span>13</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-14: 0건"><span>14</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-15: 0건"><span>15</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-16: 0건"><span>16</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-17: 0건"><span>17</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-18: 0건"><span>18</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-19: 0건"><span>19</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-20: 0건"><span>20</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-21: 0건"><span>21</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-22: 0건"><span>22</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-23: 0건"><span>23</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-24: 0건"><span>24</span></div><div class="hm-cell" style="background:rgba(59,130,246,0.24)" title="2026-05-25: 47건"><span>25</span></div><div class="hm-cell" style="background:rgba(59,130,246,1.00)" title="2026-05-26: 193건"><span>26</span></div><div class="hm-cell" style="background:rgba(59,130,246,0.59)" title="2026-05-27: 114건"><span>27</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-28: 0건"><span>28</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-29: 0건"><span>29</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-30: 0건"><span>30</span></div><div class="hm-cell" style="background:#161B22" title="2026-05-31: 0건"><span>31</span></div></div>
+</div>
+
+<div class="section">
+  <h2>상위 기여 에이전트 (완료 기준 Top 10)</h2>
+  <table>
+    <tr><th>에이전트</th><th>팀</th><th>완료</th><th>진행</th><th>검토</th></tr>
+    <tr><td><span class="team-dot" style="background:#10B981"></span>frontend</td><td>Dev</td><td class="num">138</td><td class="num">151</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#10B981"></span>lead-dev</td><td>Dev</td><td class="num">86</td><td class="num">88</td><td class="num">44</td></tr><tr><td><span class="team-dot" style="background:#8B5CF6"></span>orchestrator</td><td>OC</td><td class="num">82</td><td class="num">85</td><td class="num">40</td></tr><tr><td><span class="team-dot" style="background:#10B981"></span>backend</td><td>Dev</td><td class="num">20</td><td class="num">17</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#10B981"></span>statworkbench</td><td>Dev</td><td class="num">14</td><td class="num">19</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#10B981"></span>devops</td><td>Dev</td><td class="num">7</td><td class="num">9</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#3B82F6"></span>eda-analyst</td><td>Data</td><td class="num">2</td><td class="num">2</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#10B981"></span>tech-writer</td><td>Dev</td><td class="num">2</td><td class="num">4</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#3B82F6"></span>data-collector</td><td>Data</td><td class="num">1</td><td class="num">1</td><td class="num">0</td></tr><tr><td><span class="team-dot" style="background:#10B981"></span>tester</td><td>Dev</td><td class="num">1</td><td class="num">2</td><td class="num">0</td></tr>
+  </table>
+</div>
+
+<div style="color:#334155;font-size:11px;text-align:right">생성: 2026-05-28 00:30</div>
+</body></html>
