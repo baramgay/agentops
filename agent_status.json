@@ -1,0 +1,167 @@
+{
+  "orchestrator": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "lead-data": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "lead-dev": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "lead-pptx": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "data-collector": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "data-cleaner": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "eda-analyst": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "statistician": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "ml-engineer": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "deep-learning": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "gis-specialist": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "text-analyst": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "visualizer": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "reporter": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "realty-analyst": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "requirements": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "ux-designer": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "frontend": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "backend": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "dba": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "security": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "tester-unit": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "tester-qa": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "devops": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "tech-writer": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "architect": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "tester": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "pptx-planner": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "pptx-content": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "pptx-designer": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "pptx-builder": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "pptx-reviewer": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  },
+  "statworkbench": {
+    "status": "idle",
+    "task": "",
+    "updated": ""
+  }
+}

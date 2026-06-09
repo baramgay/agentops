@@ -6,6 +6,12 @@ Stop juggling multiple AI sessions. agentops gives Claude Code a **persistent ch
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-orange)](https://claude.ai/code)
+[![Agents](https://img.shields.io/badge/agents-33-blueviolet)](#-the-agent-system)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+---
+
+![agentops dashboard](assets/dashboard-preview.png)
 
 ---
 
