@@ -1,9 +1,6 @@
 name: 주간 보고서 자동 생성
 
 on:
-  schedule:
-    # 매주 월요일 00:00 UTC = 09:00 KST
-    - cron: '0 0 * * 1'
   workflow_dispatch:
     inputs:
       week:
