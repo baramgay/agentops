@@ -35,7 +35,7 @@ jobs:
 
       - name: Validate agent status JSON
         run: |
-          python -c "import json; data=json.load(open('agent_status.json')); print(f'agents: {len(data[\"agents\"])}')"
+          python -c "import json; data=json.load(open('agent_status.json')); print(f'agents: {len(data)}')"
 
       - name: Validate issues JSON
         run: |
