@@ -1,28 +1,36 @@
 """
-에이전트 상태 업데이트 유틸리티
+Agent status update utility
 
-사용법:
-  기본: python scripts/update_status.py [agent_id] [status] "[task]"
-  학습: python scripts/update_status.py [agent_id] done "[task]" --learn "[학습 메모]"
+Usage:
+  basic:  python scripts/update_status.py [agent_id] [status] "[task]"
+  learn:  python scripts/update_status.py [agent_id] done "[task]" --learn "[memo]"
 
-status 값:
-  working  - 작업 중 (초록)
-  review   - 검토 중 (노랑)
-  waiting  - 대기 중 (주황)
-  done     - 완료 (다시 idle로)
-  idle     - 유휴
+status values:
+  working  - in progress (green)
+  review   - under review (yellow)
+  waiting  - waiting (orange)
+  done     - complete (returns to idle)
+  idle     - idle
 
-예시:
-  python scripts/update_status.py data-collector working "공공데이터포털 인구 데이터 수집 중"
-  python scripts/update_status.py data-collector done "인구 데이터 수집 완료 (3,842건)"
-  python scripts/update_status.py reporter done "청년정착 보고서 완료" --learn "Ⅴ 결론 y불릿은 4개씩 끊는게 한 페이지에 맞음"
+examples:
+  python scripts/update_status.py data-collector working "Collecting population data"
+  python scripts/update_status.py data-collector done "Collected population data (3,842 records)"
+  python scripts/update_status.py reporter done "Report complete" --learn "4 bullets per section fits one page"
 """
 
 import sys
 import json
 import os
+import argparse
 from datetime import datetime
 from pathlib import Path
+
+# Optional argcomplete support for shell tab-completion
+try:
+    import argcomplete
+    HAS_ARGCOMPLETE = True
+except ImportError:
+    HAS_ARGCOMPLETE = False
 
 # Windows 콘솔(cp949)에서 이모지·한글 출력 시 UnicodeEncodeError 방지
 try:
@@ -69,29 +77,80 @@ STATUS_ICON = {
 }
 
 
-def main():
-    if len(sys.argv) < 3:
-        print("사용법: python update_status.py [agent_id] [status] [task_description]")
-        sys.exit(1)
+def get_agent_ids():
+    """Return list of valid agent IDs from agent_status.json for shell completion."""
+    try:
+        find_status_file()
+        data = load_status()
+        return list(data.get("agents", {}).keys())
+    except Exception:
+        return []
 
-    agent_id = sys.argv[1]
-    status = sys.argv[2].lower()
-    # task는 4번째 인자로 받되, --learn 옵션 자체나 그 값은 제외
-    task = ""
-    if len(sys.argv) > 3 and sys.argv[3] != "--learn":
-        task = sys.argv[3]
+
+def main():
+    # Build argparse parser with dynamic agent ID choices for completion
+    _agent_ids = get_agent_ids()
+
+    parser = argparse.ArgumentParser(
+        description="Update agent status in the agentops system.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "status values:\n"
+            "  working  in progress\n"
+            "  review   under review\n"
+            "  waiting  waiting on dependency\n"
+            "  done     complete (transitions to idle)\n"
+            "  idle     idle / standby\n\n"
+            "examples:\n"
+            "  python scripts/update_status.py eda-analyst working \"Analyzing Q1 data\"\n"
+            "  python scripts/update_status.py eda-analyst done \"Analysis complete\"\n"
+            "  python scripts/update_status.py reporter done \"Report done\" --learn \"4 bullets fits one page\""
+        ),
+    )
+    parser.add_argument(
+        "agent_id",
+        choices=_agent_ids if _agent_ids else None,
+        metavar="agent_id",
+        help="Agent ID (e.g. orchestrator, backend, eda-analyst). Tab-complete for full list.",
+    )
+    parser.add_argument(
+        "status",
+        choices=["working", "review", "waiting", "done", "idle"],
+        help="New status for the agent.",
+    )
+    parser.add_argument(
+        "task",
+        nargs="?",
+        default="",
+        help="Task description (optional, quoted string).",
+    )
+    parser.add_argument(
+        "--learn",
+        metavar="MEMO",
+        help="Learning memo to append to agent memory.md (used with status=done).",
+    )
+
+    # Register completion handler before parsing — no-op when argcomplete is absent
+    if HAS_ARGCOMPLETE:
+        argcomplete.autocomplete(parser)
+
+    args = parser.parse_args()
+    agent_id = args.agent_id
+    status = args.status.lower()
+    task = args.task or ""
+    learn_text = args.learn
 
     if status not in VALID_STATUSES:
-        print(f"오류: status는 {VALID_STATUSES} 중 하나여야 합니다.")
+        print(f"Error: status must be one of {VALID_STATUSES}")
         sys.exit(1)
 
-    # 파일 존재 확인 (common_io가 없으면 생성)
+    # Ensure status file exists
     find_status_file()
 
     data = load_status()
 
     if agent_id not in data.get("agents", {}):
-        print(f"오류: 알 수 없는 에이전트 ID '{agent_id}'")
+        print(f"Error: unknown agent ID '{agent_id}'")
         sys.exit(1)
 
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
@@ -116,13 +175,7 @@ def main():
     data.setdefault("log", []).insert(0, log_entry)
     data["log"] = data["log"][:30]
 
-    # --learn 옵션 처리 (status가 done인 경우만)
-    learn_text = None
-    if '--learn' in sys.argv:
-        idx = sys.argv.index('--learn')
-        if idx + 1 < len(sys.argv):
-            learn_text = sys.argv[idx + 1]
-
+    # Process --learn option (only when status is done)
     if learn_text and status == 'done':
         import re
         hanja_re = re.compile(r'[㐀-䶿一-鿿]')
