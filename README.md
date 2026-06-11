@@ -32,14 +32,32 @@ Stop juggling multiple AI sessions. agentops gives Claude Code a **persistent ch
 
 ## 🚀 Quick Start
 
-### 1. Clone & set up
+### 🐳 Docker — zero-dependency (recommended)
+
+No Python install required:
 
 ```bash
-git clone https://github.com/your-github-username/agentops.git
+git clone https://github.com/baramgay/agentops.git
+cd agentops
+cp .env.example .env   # optional: fill in OPENAI_API_KEY for LLM features
+docker compose up
+# Dashboard → http://localhost:8000
+```
+
+> `agents/`, `wiki/`, `issues.json`, `agent_status.json`, and `projects.json` are mounted as volumes — edits on the host are reflected live and state persists across restarts.
+
+---
+
+### Manual setup
+
+#### 1. Clone & set up
+
+```bash
+git clone https://github.com/baramgay/agentops.git
 cd agentops
 ```
 
-### 2. Set the home path
+#### 2. Set the home path
 
 **Windows (PowerShell)**:
 ```powershell
@@ -52,21 +70,21 @@ echo 'export AGENTS_HOME="$HOME/agentops"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 3. Install dependencies & initialize
+#### 3. Install dependencies & initialize
 
 ```bash
 pip install -r requirements.txt
 python scripts/setup.py
 ```
 
-### 4. Start the server
+#### 4. Start the server
 
 ```bash
 python scripts/api_server.py
 # Dashboard → http://localhost:8000
 ```
 
-### 5. Add to your Claude Code project
+#### 5. Add to your Claude Code project
 
 Copy `CLAUDE.md` into your project root (or merge with your existing one) and configure the `AGENTS_HOME` path.
 
