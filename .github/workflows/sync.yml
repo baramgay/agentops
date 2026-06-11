@@ -3,7 +3,7 @@ name: Auto Rebuild index.html
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'agent_status.json'
       - 'agents/**/*.md'
@@ -46,5 +46,5 @@ jobs:
             echo "No changes to commit. Skipping."
           else
             git commit -m "ci: auto-rebuild index.html [skip ci]"
-            git push origin master
+            git push origin main
           fi
