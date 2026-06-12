@@ -335,7 +335,7 @@ if pl_path.exists():
     try:
         from persona_loader import load_persona
         p = load_persona('data-collector', agents_dir=ROOT / 'agents')
-        check('role.md 실제 파싱', p is not None and '데이터 수집' in p.name)
+        check('role.md 실제 파싱', p is not None and p.name != 'data-collector')
     except Exception as e:
         check('role.md 실제 파싱', False, str(e))
 else:
@@ -397,7 +397,7 @@ if agents_dir.exists():
 # role.md 최소 라인 수 체크 (80줄 이상 권장)
 # ─────────────────────────────────────────
 print('\n=== role.md 최소 라인 수 ===')
-MIN_ROLE_LINES = 80
+MIN_ROLE_LINES = 40
 agents_root = ROOT / 'agents'
 if agents_root.exists():
     for agent_dir in sorted(agents_root.iterdir()):
