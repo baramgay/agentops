@@ -4,6 +4,7 @@ Run once after cloning: python scripts/setup.py
 """
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -86,6 +87,25 @@ def check_requirements():
         print("[WARN] Missing dependencies. Run: pip install -r requirements.txt")
 
 
+def run_config_validation():
+    """Run validate_config.py and surface any issues found."""
+    validator = Path(__file__).parent / "validate_config.py"
+    result = subprocess.run(
+        [sys.executable, str(validator), "--quiet"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        # Print whatever the validator printed (errors / warnings)
+        output = (result.stdout + result.stderr).strip()
+        if output:
+            print(output)
+        print("[WARN] Configuration issues detected.")
+        print("       Run 'python scripts/validate_config.py' for details.")
+    else:
+        print("[OK] Configuration validation passed")
+
+
 def main():
     print("=== agentops setup ===\n")
     check_python()
@@ -94,6 +114,7 @@ def main():
     init_issues()
     init_wiki_dirs()
     check_requirements()
+    run_config_validation()
     print("\n=== Setup complete ===")
     print("Next: python scripts/api_server.py")
     print("      Then open index.html in your browser")
