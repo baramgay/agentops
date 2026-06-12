@@ -1,19 +1,23 @@
 ## What does this PR do?
 
-<!-- One-line summary -->
+<!-- One-sentence summary -->
 
-## Type of change
+## Why?
 
-- [ ] New agent definition
-- [ ] Bug fix
-- [ ] New feature (dashboard / scripts / wiki)
-- [ ] Documentation
-- [ ] Refactor
+<!-- Problem being solved or feature being added -->
+
+## How was it tested?
+
+- [ ] Ran `python scripts/validate_config.py` — passes
+- [ ] Dashboard loads at http://localhost:8000
+- [ ] `python scripts/update_status.py eda-analyst working "test"` works
+
+## Screenshots (if UI change)
 
 ## Checklist
 
-- [ ] Tested locally
+- [ ] Code is in English
+- [ ] No Korean text added
+- [ ] `requirements.txt` updated if new dependencies added
 - [ ] No hardcoded paths (uses `AGENTS_HOME` or relative paths)
-- [ ] No personal data
-- [ ] `python scripts/validate.py` passes
 - [ ] New agents include both `role.md` and `memory.md`

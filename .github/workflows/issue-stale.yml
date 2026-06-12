@@ -1,0 +1,65 @@
+name: Mark and close stale issues
+
+on:
+  schedule:
+    # Every Monday at 09:00 UTC
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: Stale issue sweep
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mark and close stale issues
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # ----- Stale thresholds -----
+          days-before-stale: 60
+          days-before-close: 14
+
+          # ----- Issue messages -----
+          stale-issue-label: "stale"
+          stale-issue-message: >
+            This issue has been automatically marked as **stale** because it has not had
+            any activity in the last 60 days. If this issue is still relevant, please
+            leave a comment or update it to keep it active. Otherwise, it will be closed
+            in **14 days**.
+
+            Thank you for your contribution!
+
+          close-issue-message: >
+            This issue has been automatically **closed** due to 14 days of inactivity
+            after being marked stale. If you believe this issue still needs attention,
+            please reopen it with additional context.
+
+            Thank you for your understanding!
+
+          # ----- PR messages -----
+          stale-pr-label: "stale"
+          stale-pr-message: >
+            This pull request has been automatically marked as **stale** because it has
+            not had any activity in the last 60 days. If it is still relevant, please
+            rebase it onto the latest main and leave a comment. Otherwise, it will be
+            closed in **14 days**.
+
+          close-pr-message: >
+            This pull request has been automatically **closed** due to 14 days of
+            inactivity after being marked stale. Feel free to reopen it if you would
+            like to continue working on it.
+
+          # ----- Exemptions -----
+          # Issues/PRs with these labels are never marked stale.
+          exempt-issue-labels: "pinned,security,in-progress,blocked"
+          exempt-pr-labels: "pinned,security,in-progress,blocked"
+
+          # Only process issues (not PRs) in this run
+          # Remove the line below if you also want PRs managed.
+          # operations-per-run: 30

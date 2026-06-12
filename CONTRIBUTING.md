@@ -1,18 +1,43 @@
 # Contributing to agentops
 
-Thank you for your interest in agentops! This project is built on the idea that AI tools work better with **structure**, and contributions that add structure, clarity, or new agent definitions are especially welcome.
+Thank you for helping make agentops better!
 
-## Ways to contribute
+## Quick start for contributors
 
-### Add a new agent definition
-
-The fastest way to contribute. Create two files:
-
+```bash
+git clone https://github.com/baramgay/agentops.git
+cd agentops
+pip install -r requirements.txt
+python scripts/api_server.py   # verify dashboard loads at http://localhost:8000
 ```
-agents/<your-agent-id>/
-├── role.md    # Who the agent is and what it does
-└── memory.md  # Accumulated knowledge (starts empty)
+
+## What to work on
+
+- Issues labeled [`good first issue`](https://github.com/baramgay/agentops/labels/good%20first%20issue) are a great entry point
+- Issues labeled [`help wanted`](https://github.com/baramgay/agentops/labels/help%20wanted) are higher priority
+
+## Branch naming
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| Feature | `feat/description` | `feat/slack-notifications` |
+| Bug fix | `fix/description` | `fix/websocket-reconnect` |
+| Docs | `docs/description` | `docs/docker-setup` |
+
+## Commit style
+
+Use conventional commits:
 ```
+feat: add webhook notifications
+fix: handle missing agent_status.json gracefully
+docs: improve Docker quick start
+```
+
+## Adding a new agent
+
+1. Create `agents/<agent-id>/role.md` — describe the agent's identity, responsibilities, and principles
+2. Add the agent ID to `agent_status.json` with status `"idle"`
+3. Document it in `wiki/MoC/agents-system.md`
 
 **role.md template:**
 ```markdown
@@ -35,57 +60,36 @@ One sentence: what this agent is responsible for.
 
 **Existing agents to model after:** `agents/eda-analyst/`, `agents/backend/`, `agents/reporter/`
 
-### Improve the dashboard
-
-`index.html` is a single-file dashboard. Improvements welcome:
-- Better mobile responsiveness
-- New views (timeline, agent dependency graph)
-- Dark mode
-
-### Add wiki content
-
-`wiki/notes/method/` is the best place for reusable methodology notes. Format:
+## Adding a wiki note
 
 ```markdown
 ---
-name: your-method-slug
-type: method
-domain: development   # agents시스템 | development | data-analysis
-updated: YYYY-MM-DD
+name: my-note-slug
+type: method          # feedback | project | reference | method
+domain: development   # matches a MoC file name
+updated: 2026-01-01
 ---
 
-# Method Title
+# Title
 
 Conclusion. Why. How to apply.
 ```
 
-Run `python scripts/wiki_cleanup.py` after adding notes to auto-register in MoC.
+Then run `python scripts/wiki_cleanup.py` to auto-register in MoC.
 
-### Fix bugs / improve scripts
+## Code style
 
-Scripts are in `scripts/`. Core ones:
-- `update_status.py` — agent status CLI
-- `api_server.py` — FastAPI server (dashboard + WebSocket + issues API)
-- `wiki_cleanup.py` — MoC coverage maintenance
+- Python: follow PEP 8, use type hints where practical
+- All code and comments in English
+- No hard-coded paths — use `AGENTS_HOME` env var or `Path(__file__).parent`
 
-## Development setup
+## Testing
 
 ```bash
-git clone https://github.com/your-github-username/agentops.git
-cd agentops
-pip install -r requirements.txt
-python scripts/setup.py
-python scripts/api_server.py   # http://localhost:8000
+python scripts/validate_config.py   # config health check
+python -c "import json; json.load(open('agent_status.json'))"   # JSON integrity
 ```
 
-## Pull request checklist
+## Need help?
 
-- [ ] Tested locally (`python scripts/validate.py`)
-- [ ] No personal data or hardcoded paths
-- [ ] Use `AGENTS_HOME` environment variable for all paths
-- [ ] New agents include both `role.md` and `memory.md`
-- [ ] Wiki notes follow the frontmatter format
-
-## Questions?
-
-Open an issue with the `question` label. We respond to all issues.
+Open an issue or start a [discussion](https://github.com/baramgay/agentops/discussions).
