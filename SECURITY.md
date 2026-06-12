@@ -4,26 +4,28 @@
 
 | Version | Supported |
 |---------|-----------|
-| latest (master) | yes |
+| 1.x     | Yes       |
 
 ## Reporting a Vulnerability
 
-Please **do not** open a public GitHub issue for security vulnerabilities.
+If you discover a security vulnerability in agentops, please report it responsibly.
 
-Instead, report them to: lhk@gni.re.kr
+**Do not** open a public GitHub issue for security vulnerabilities.
 
-Include:
-- Description of the vulnerability
-- Steps to reproduce
-- Potential impact
+Instead, please email the maintainer directly or use GitHub's private vulnerability reporting feature.
 
-We will respond within 48 hours and work with you to resolve it before public disclosure.
+We will acknowledge your report within 48 hours and aim to resolve confirmed vulnerabilities within 14 days.
 
-## Security considerations for self-hosting
+## Scope
 
-agentops is designed for **local or private network use**. If you expose the API server to the internet:
+This project manages local agent configuration files and scripts. Key areas of concern include:
 
-1. Add authentication (the server currently has none)
-2. Use HTTPS (put a reverse proxy like Caddy or nginx in front)
-3. Set `OPENAI_API_KEY` in `.env` rather than hardcoding
-4. Review `wiki/` contents before making the repo public — it may contain sensitive notes
+- Scripts that execute system commands (`scripts/update_status.py`, etc.)
+- Configuration files that may contain sensitive data
+- Any file that reads/writes to the filesystem
+
+## Best Practices for Users
+
+- Do not store API keys or credentials in `config.local.json` if committing to a shared repo
+- Review agent role definitions before deploying to shared environments
+- Use environment variables for sensitive configuration values
