@@ -1,340 +1,281 @@
-# agentops 🤖
+# agentops
 
-> **Production-ready multi-agent orchestration framework for Claude Code**
+> **Stop re-explaining your project. Give Claude Code a persistent team.**
 
-Stop juggling multiple AI sessions. agentops gives Claude Code a **persistent chain of specialized agents**, a live dashboard, a built-in wiki, and a native issue tracker — all wired together so complex work flows smoothly without losing context.
+agentops turns Claude Code from a solo assistant into a **coordinated team of 33 specialized agents** — each with its own memory, role, and audit trail. Complex multi-week projects stay coherent. Claude gets better at your specific work over time.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Claude Code](https://img.shields.io/badge/Claude-Code-orange)](https://claude.ai/code)
-[![Agents](https://img.shields.io/badge/agents-33-blueviolet)](#-the-agent-system)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![CI](https://github.com/baramgay/agentops/actions/workflows/validate.yml/badge.svg)](https://github.com/baramgay/agentops/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org) [![Agents](https://img.shields.io/badge/agents-33-blueviolet)](#-the-agent-team) [![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)](#-docker-quick-start) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ---
 
-![agentops dashboard](assets/dashboard-preview.png)
+## Why agentops?
+
+You open Claude Code. You explain the project. You get work done. You close the session.
+
+Next day: explain the project again.
+
+**agentops fixes this.** Every decision, every lesson, every bug fix lands in a structured wiki and a live dashboard. Your agents remember. Your team grows.
 
 ---
 
-## ✨ Features
+## Comparison
 
-| Feature | Description |
-|---------|-------------|
-| 🎯 **33 Specialized Agents** | Pre-built agents for data analysis, dev, PPTX, GIS, ML, and more |
-| 📊 **Real-time Dashboard** | Live kanban board, agent status, issue tracker with WebSocket sync |
-| 🧠 **Knowledge Wiki** | Obsidian-compatible wiki with auto-indexing (MoC pattern) |
-| 🔗 **Native Issue Tracker** | Built-in GNI-N tracking — no Jira, no Linear needed |
-| 🪝 **Claude Code Hooks** | Auto-register wiki notes, session capture, health checks |
-| ⚡ **Token Efficiency** | opusplan + MoC-based context loading + autoCompact at 150k tokens |
-| 🔄 **Vertical Chain** | OC → Lead → Agent command hierarchy with zero skipping |
-| 🌐 **Multi-PC Sync** | Git-based wiki sync across machines |
+| Feature | Claude Code alone | AutoGen | CrewAI | **agentops** |
+|---------|:-----------------:|:-------:|:------:|:------------:|
+| Persistent agent state across sessions | No | Partial | Partial | **Yes** |
+| Real-time dashboard + kanban | No | No | No | **Yes** |
+| Claude Code native (CLAUDE.md hooks) | — | No | No | **Yes** |
+| Built-in wiki with MoC indexing | No | No | No | **Yes** |
+| Native issue tracker (no Jira/Linear) | No | No | No | **Yes** |
+| Token-efficient context loading | Manual | Manual | Manual | **Auto (MoC)** |
+| Zero extra API cost | Yes | No | No | **Yes** |
+| Vertical command chain (OC→Lead→Agent) | No | Partial | Partial | **Yes** |
+| Session transcript auto-capture | No | No | No | **Yes** |
+| Metaverse office visualization | No | No | No | **Yes** |
 
 ---
 
-## 🚀 Quick Start
+## How It Works
 
-### 🐳 Docker — zero-dependency (recommended)
+```
+User
+  |
+  v
+CLAUDE.md (system rules + agent registry)
+  |
+  v
+Orchestrator (OC) ---- coordinates ---> Wiki
+  |                                      |
+  v                                      |
+Team Lead (lead-data / lead-dev / lead-pptx)
+  |                                      |
+  v                                      v
+Specialist Agent ----- result -------> Dashboard
+(eda-analyst, backend, gis-specialist, ...)
 
-No Python install required:
+Issue Tracker auto-transitions:
+  working -> in_progress -> review -> done
+```
+
+Every status update writes to `agent_status.json`, broadcasts via WebSocket to the dashboard, and optionally transitions a linked issue.
+
+---
+
+## 30-Second Demo
+
+```bash
+# Declare work -- the agent system takes over
+$ python scripts/update_status.py eda-analyst working "Analyzing Q1 sales"
+[eda-analyst] working: Analyzing Q1 sales
+
+# ... Claude does the actual work here ...
+
+$ python scripts/update_status.py eda-analyst done "Found 3 anomalies in March data"
+[eda-analyst] done: Found 3 anomalies in March data
+```
+
+Complex task with full chain:
+
+```bash
+$ python scripts/update_status.py orchestrator working "Q1 sales deep-dive report"
+$ python scripts/update_status.py lead-data working "Coordinating: collector -> cleaner -> EDA -> reporter"
+$ python scripts/update_status.py data-collector working "Fetching Q1 raw sales data"
+[data-collector] done: 142,000 rows pulled
+$ python scripts/update_status.py data-cleaner working "Removing duplicates, fixing dtypes"
+[data-cleaner] done: 98.7% data quality score
+$ python scripts/update_status.py eda-analyst working "Trend + anomaly detection"
+[eda-analyst] done: 3 anomalies in March, regional breakdown ready
+$ python scripts/update_status.py reporter working "Building executive summary"
+[reporter] done: PPTX + PDF delivered to /reports/
+```
+
+---
+
+## Docker Quick Start
+
+The fastest way to get the dashboard running:
+
+```bash
+docker run -p 8000:8000 \
+  -v $(pwd)/agents:/app/agents \
+  -v $(pwd)/wiki:/app/wiki \
+  ghcr.io/baramgay/agentops:latest
+```
+
+Dashboard opens at **http://localhost:8000**
+
+**Or with docker compose:**
 
 ```bash
 git clone https://github.com/baramgay/agentops.git
 cd agentops
-cp .env.example .env   # optional: fill in OPENAI_API_KEY for LLM features
 docker compose up
-# Dashboard → http://localhost:8000
 ```
-
-> `agents/`, `wiki/`, `issues.json`, `agent_status.json`, and `projects.json` are mounted as volumes — edits on the host are reflected live and state persists across restarts.
 
 ---
 
-### Manual setup
+## Real-World Use Cases
 
-#### 1. Clone & set up
+- **Monthly policy reports at scale** -- A public data center uses agentops to run a 6-agent pipeline (data-collector -> data-cleaner -> statistician -> gis-specialist -> visualizer -> reporter) that produces a 30-page regional housing report every month. The wiki retains every analytical decision, so the next month's run needs zero re-briefing.
+
+- **Full-stack web app from spec to deploy** -- A dev team routes requirements -> ux-designer -> frontend -> backend -> dba -> tester-qa -> devops through the vertical chain. Each agent's output is linked to a GNI issue. When the PR merges, the issue auto-closes.
+
+- **GIS + machine learning research** -- A spatial analyst queries the gis-specialist for boundary data, hands off to ml-engineer for clustering, and gets a choropleth map back -- all with a two-line audit trail in the dashboard and the methodology saved to `wiki/notes/method/`.
+
+---
+
+## Manual Setup
 
 ```bash
 git clone https://github.com/baramgay/agentops.git
 cd agentops
-```
-
-#### 2. Set the home path
-
-**Windows (PowerShell)**:
-```powershell
-setx AGENTS_HOME "C:\path\to\agentops"
-```
-
-**macOS / Linux**:
-```bash
-echo 'export AGENTS_HOME="$HOME/agentops"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-#### 3. Install dependencies & initialize
-
-```bash
 pip install -r requirements.txt
 python scripts/setup.py
-```
-
-To validate your configuration at any time:
-
-```bash
-python scripts/validate_config.py
-```
-
-#### 4. Start the server
-
-```bash
 python scripts/api_server.py
-# Dashboard → http://localhost:8000
+# Dashboard -> http://localhost:8000
 ```
 
-#### 5. Add to your Claude Code project
+Add to your project's `CLAUDE.md`:
 
-Copy `CLAUDE.md` into your project root (or merge with your existing one) and configure the `AGENTS_HOME` path.
-
----
-
-## ⌨️ Shell Completion
-
-Tab-complete agent IDs and status values in your terminal:
-
-```bash
-# 1. Install argcomplete (included in requirements.txt)
-pip install argcomplete
-
-# 2. One-time setup — choose your shell
-python scripts/install_completion.py --bash   # bash  → ~/.bashrc
-python scripts/install_completion.py --zsh    # zsh   → ~/.zshrc
-python scripts/install_completion.py --fish   # fish  → ~/.config/fish/completions/
-
-# 3. Reload your shell
-source ~/.bashrc   # or ~/.zshrc
-
-# 4. Tab away
-python scripts/update_status.py [TAB]
-# orchestrator  lead-data  lead-dev  eda-analyst  backend  frontend ...
-
-python scripts/update_status.py eda-analyst [TAB]
-# working  review  waiting  done  idle
-```
-
-> **Note**: Agent IDs are read live from `agent_status.json`, so newly added agents appear in completion automatically without any extra setup.
->
-> To preview the snippet without making changes: `python scripts/install_completion.py --print`
-
----
-
-## 🗂️ Project Structure
-
-```
-agentops/
-├── agents/              # 33 specialized agent definitions
-│   ├── orchestrator/    # Master coordinator
-│   ├── lead-data/       # Data team lead
-│   ├── lead-dev/        # Dev team lead
-│   ├── eda-analyst/     # Exploratory data analysis
-│   ├── backend/         # API & backend development
-│   ├── frontend/        # UI & web development
-│   └── ...              # 27 more agents
-├── scripts/
-│   ├── api_server.py    # FastAPI server (dashboard + WebSocket + issue API)
-│   ├── update_status.py      # CLI: declare agent working/done
-│   ├── install_completion.py # Shell tab-completion installer
-│   ├── issue_create.py       # CLI: create & query issues
-│   ├── wiki_cleanup.py       # Wiki MoC coverage maintenance
-│   └── setup.py              # First-time initialization
-├── wiki/
-│   ├── 00_home.md       # Wiki index
-│   ├── MoC/             # Maps of Content (domain indexes)
-│   └── notes/           # Atomic notes (feedback/project/method/reference)
-├── index.html           # Dashboard (open in browser)
-├── CLAUDE.md            # Claude Code system instructions
-└── settings.example.json
+```markdown
+# Agent System
+- Home: /path/to/agentops
+- Every task flows through update_status.py
+- See CLAUDE.md in agentops/ for full protocol
 ```
 
 ---
 
-## 🤖 The Agent System
+## The Agent Team
 
-Every task — large or small — flows through the agent chain:
+33 specialized agents across three teams:
 
-```
-User → Orchestrator → Team Lead → Specialist Agent
-                                        ↓
-User ← Orchestrator ← Team Lead ← (review)
-```
+| Team | Lead | Agents |
+|------|------|--------|
+| **Data** | `lead-data` | data-collector, data-cleaner, eda-analyst, statistician, ml-engineer, deep-learning, gis-specialist, text-analyst, visualizer, reporter, realty-analyst |
+| **Dev** | `lead-dev` | requirements, ux-designer, frontend, backend, dba, security, tester-unit, tester-qa, devops, tech-writer, statworkbench, architect, tester |
+| **PPTX** | `lead-pptx` | pptx-planner, pptx-content, pptx-designer, pptx-builder, pptx-reviewer |
 
-### Declare work (CLI)
+Quick lookup:
 
-```bash
-# Simple task (single agent)
-python scripts/update_status.py eda-analyst working "Analyzing sales data"
-# ... do the work ...
-python scripts/update_status.py eda-analyst done "EDA complete, 3 key findings"
-
-# Complex task (full chain)
-python scripts/update_status.py orchestrator working "Multi-domain analysis"
-python scripts/update_status.py lead-data working "Coordinating data pipeline"
-python scripts/update_status.py data-cleaner working "Cleaning Q1 dataset"
-```
-
-### Quick agent reference
-
-| Task Type | Agent ID |
-|-----------|----------|
-| Data collection | `data-collector` |
-| Data cleaning | `data-cleaner` |
-| EDA / exploration | `eda-analyst` |
-| Statistics | `statistician` |
+| Task | Agent ID |
+|------|----------|
+| Exploratory analysis | `eda-analyst` |
 | Machine learning | `ml-engineer` |
 | GIS / spatial | `gis-specialist` |
 | Frontend / UI | `frontend` |
 | Backend / API | `backend` |
 | Database | `dba` |
-| Reporting | `reporter` |
-| PPTX creation | `pptx-builder` |
 | Architecture | `architect` |
+| Slide deck | `pptx-builder` |
 | Multi-domain | `orchestrator` |
 
 ---
 
-## 📋 Issue Tracker
+## Token Efficiency
 
-Issues are tracked natively — no external tools required.
+agentops is designed to work *within* Claude's context window, not fight it:
 
-```bash
-# Create an issue
-python scripts/issue_create.py "Bug in data pipeline" "Description here" eda-analyst high
-
-# List open issues
-python scripts/issue_create.py --list open
-
-# Get issue detail
-python scripts/issue_create.py --get GNI-1
-```
-
-Issues auto-transition when agents report status:
-- `working` → `in_progress`
-- `review` → `in_review`
-- `done` → `done`
+- **opusplan model**: Opus reasons (50k thinking tokens) + Sonnet outputs -- best quality per token
+- **MoC-based reading**: Load only the relevant domain index + 1-2 notes. Never the whole wiki.
+- **autoCompact at 150k**: Context auto-compresses at the right threshold
+- **Session capture hook**: Zero-LLM-cost transcript logging at session end
+- **Pointer pattern**: Compressed context keeps `[[wiki-slug]]` references, not full content
 
 ---
 
-## 🧠 Knowledge Wiki
+## Knowledge Wiki
 
-The wiki uses **Maps of Content (MoC)** to keep knowledge organized without loading everything into context.
+Every agent decision, bug fix, and methodology lands in a structured wiki:
 
 ```
 wiki/
-├── MoC/
-│   ├── agents-system.md    # Index of all agent-related notes
-│   ├── data-analysis.md    # Data & statistics notes
-│   └── development.md      # Dev patterns & decisions
+├── MoC/                    # Maps of Content -- domain indexes
+│   ├── agents-system.md
+│   ├── data-analysis.md
+│   └── development.md
 └── notes/
-    ├── feedback/           # Behavior corrections & confirmed approaches
+    ├── feedback/           # Behavior corrections
     ├── method/             # Reusable methodologies
     ├── project/            # Project state & decisions
     └── reference/          # External tools & resources
 ```
 
-**Write a note** (frontmatter required):
+New notes auto-register into MoC via a `post-tool-use` hook -- zero manual indexing.
 
-```markdown
----
-name: my-decision-slug
-type: method          # feedback | project | reference | method
-domain: development   # matches a MoC file
-updated: 2026-01-01
 ---
 
-# Decision Title
+## Claude Code Hooks
 
-Conclusion. Why. How to apply.
+```
+session-start   -> Health check + load relevant wiki context
+post-tool-use   -> Auto-register new wiki notes into MoC
+pre-compact     -> Nudge to save key decisions to wiki first
+session-end     -> Capture full transcript to wiki/notes/sessions/
 ```
 
-Run `python scripts/wiki_cleanup.py` to auto-register new notes into MoC files.
+---
+
+## Roadmap
+
+- [x] 33 specialist agents with role definitions
+- [x] Real-time dashboard (kanban + issue tracker + wiki browser)
+- [x] WebSocket live sync across browser tabs
+- [x] Native issue tracker (GNI-N) with auto-transitions
+- [x] GitHub Issues bidirectional sync
+- [x] Metaverse office visualization (Phaser 3)
+- [x] Claude Code hooks (session capture, MoC auto-register)
+- [x] opusplan token efficiency system
+- [x] Docker support
+- [ ] Agent performance analytics (SLA tracking per agent)
+- [ ] One-click agent scaffolding (`python scripts/new_agent.py`)
+- [ ] MCP server for remote agentops access
+- [ ] Web UI for wiki editing (not just browsing)
+- [ ] Agent skill import/export marketplace
+- [ ] Multi-user workspace support
 
 ---
 
-## ⚡ Token Efficiency
+## Project Structure
 
-agentops is designed to work within Claude Code's context limits:
-
-- **opusplan model**: Opus reasons (50k thinking tokens) + Sonnet outputs — quality at lower cost
-- **MoC-based reading**: Load only the relevant domain index, then 1-2 target notes — never the whole wiki
-- **autoCompact at 150k**: Automatically compresses context at the right threshold
-- **Session capture hook**: Zero-cost transcript logging at session end (no LLM calls)
-
----
-
-## 🪝 Claude Code Hooks
-
-agentops registers hooks in `.claude/settings.json`:
-
-| Hook | Trigger | Action |
-|------|---------|--------|
-| `session-start` | New session | Health check + wiki status |
-| `session-end` | Session closes | Auto-capture transcript to wiki |
-| `post-tool-use` (Write) | New wiki note saved | Auto-register in MoC |
-| `pre-compact` | Context limit approaching | Nudge to save to wiki first |
-
----
-
-## 🛠️ Configuration
-
-Copy `settings.example.json` → `.claude/settings.json`:
-
-```json
-{
-  "model": "claude-sonnet-4-6",
-  "env": {
-    "AGENTS_HOME": "/path/to/agentops"
-  }
-}
+```
+agentops/
+├── agents/              # 33 agent definitions (role.md + memory.md each)
+│   ├── orchestrator/
+│   ├── lead-data/
+│   ├── lead-dev/
+│   └── ...
+├── scripts/
+│   ├── api_server.py    # FastAPI server (dashboard + WebSocket + issue API)
+│   ├── update_status.py # CLI: declare agent working/done
+│   ├── issue_create.py  # CLI: create & query issues
+│   └── setup.py         # First-time initialization
+├── wiki/
+│   ├── MoC/             # Domain indexes
+│   └── notes/           # Atomic notes
+├── index.html           # Dashboard
+├── metaverse.html       # Office visualization
+├── CLAUDE.md            # Claude Code system instructions
+└── examples/
+    ├── 01-data-pipeline/ # Data team workflow example
+    └── 02-web-app/       # Dev team workflow example
 ```
 
-See `settings.example.json` for all options including opusplan, thinking tokens, and autoCompact.
-
 ---
 
-## 📡 Dashboard
-
-The dashboard (`index.html`) provides:
-
-- **Agent Status**: Real-time kanban of all 33 agents
-- **Issue Tracker**: Create, assign, move issues through pipeline stages
-- **Wiki Browser**: Browse notes and MoC indexes
-- **Work Log**: Append-only audit trail of all agent activity
-- **Metaverse View**: Visual office layout with agent presence
-
-Start the API server, then open `index.html` in your browser. WebSocket keeps everything live-synced.
-
----
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repo
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Follow the agent system pattern — document decisions in `wiki/notes/`
-4. Submit a PR with a clear description
+2. `git checkout -b feat/your-feature`
+3. Document decisions in `wiki/notes/`
+4. Submit a PR -- see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
 
-## 📄 License
+## License
 
-MIT © agentops contributors. See [LICENSE](LICENSE).
+MIT -- see [LICENSE](LICENSE)
 
 ---
 
-## 🌟 Why agentops?
-
-Most Claude Code setups are a single assistant with a long CLAUDE.md. agentops treats your AI work like a real team:
-
-- Each domain has an **expert** (not a generalist wearing every hat)
-- Work is **logged and audited** (not lost when the session ends)
-- Knowledge **accumulates** in a searchable wiki (not repeated every session)
-- Issues are **tracked natively** (not in a separate tool)
-
-The result: complex multi-week projects stay coherent, and Claude gets better at your specific work over time.
+[![Star History Chart](https://api.star-history.com/svg?repos=baramgay/agentops&type=Date)](https://star-history.com/#baramgay/agentops&Date)
