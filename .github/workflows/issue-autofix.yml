@@ -1,0 +1,95 @@
+name: Issue Autofix
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-trigger:
+    name: Determine whether autofix should run
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+      issue_number: ${{ steps.check.outputs.issue_number }}
+      issue_title: ${{ steps.check.outputs.issue_title }}
+      issue_body: ${{ steps.check.outputs.issue_body }}
+
+    steps:
+      - name: Check trigger conditions
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const eventName = context.eventName;
+            let shouldRun = false;
+            let issueNumber = '';
+            let issueTitle = '';
+            let issueBody = '';
+
+            if (eventName === 'issues' && context.payload.label?.name === 'autofix') {
+              // Label 'autofix' was added to an issue
+              shouldRun = true;
+              issueNumber = String(context.payload.issue.number);
+              issueTitle = context.payload.issue.title;
+              issueBody = context.payload.issue.body || '';
+            } else if (eventName === 'issue_comment') {
+              const comment = context.payload.comment.body.trim();
+              const sender = context.payload.comment.user.login;
+              const repoOwner = context.payload.repository.owner.login;
+              // Trigger only when the repo owner posts /autofix
+              if (comment === '/autofix' && sender === repoOwner) {
+                shouldRun = true;
+                issueNumber = String(context.payload.issue.number);
+                issueTitle = context.payload.issue.title;
+                issueBody = context.payload.issue.body || '';
+              }
+            }
+
+            core.setOutput('should_run', String(shouldRun));
+            core.setOutput('issue_number', issueNumber);
+            // Truncate to avoid shell injection - actual content is fetched below
+            core.setOutput('issue_title', issueTitle.substring(0, 200));
+            core.setOutput('issue_body', issueBody.substring(0, 2000));
+
+  autofix:
+    name: Attempt automated fix
+    needs: check-trigger
+    if: needs.check-trigger.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          # Full history required for git apply and branch operations
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run autofix bot
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/issue_bot.py autofix \
+            --issue-number "${{ needs.check-trigger.outputs.issue_number }}" \
+            --title "${{ needs.check-trigger.outputs.issue_title }}" \
+            --body "${{ needs.check-trigger.outputs.issue_body }}"
