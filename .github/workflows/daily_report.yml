@@ -44,5 +44,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git add reports/
           git diff --cached --quiet || git commit -m "ci: daily report $(date +%Y-%m-%d) [skip ci]"
-          git pull --rebase origin master
-          git push origin master
+          git pull --rebase origin main
+          git push origin main

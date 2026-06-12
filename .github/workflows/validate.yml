@@ -3,7 +3,7 @@ name: Validate Agent System
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'index.html'
       - 'metaverse.html'
@@ -12,7 +12,7 @@ on:
       - 'scripts/validate.py'
   pull_request:
     branches:
-      - master
+      - main
 
 permissions:
   contents: read

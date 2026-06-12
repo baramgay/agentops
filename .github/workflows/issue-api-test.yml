@@ -6,7 +6,7 @@ name: Issue API Test
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'scripts/api_server.py'
       - 'scripts/test_issues.py'
@@ -15,7 +15,7 @@ on:
       - 'requirements.txt'
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - 'scripts/api_server.py'
       - 'scripts/test_issues.py'

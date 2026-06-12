@@ -18,7 +18,6 @@ After running, open a new shell (or source the config file) and tab away:
 
 import subprocess
 import sys
-import os
 from pathlib import Path
 
 
@@ -75,7 +74,7 @@ def append_to_file(path: Path, snippet: str, label: str):
     if path.exists():
         existing = path.read_text(encoding="utf-8")
         if marker in existing:
-            print(f"Completion already registered in {path} — skipping.")
+            print(f"Completion already registered in {path} -- skipping.")
             return
     with open(path, "a", encoding="utf-8") as f:
         f.write(snippet)
@@ -92,21 +91,21 @@ def install_fish():
     if target.exists():
         existing = target.read_text(encoding="utf-8")
         if "agentops shell completion" in existing:
-            print(f"Fish completion already installed at {target} — skipping.")
+            print(f"Fish completion already installed at {target} -- skipping.")
             return
     target.write_text(snippet, encoding="utf-8")
     print(f"Fish completion installed at {target}")
     print("It will be active in new fish shells automatically.")
 
 
-def print_snippet(shell: str):
+def print_snippet(is_fish: bool):
     """Print the completion snippet without making any file changes."""
-    if shell == "fish":
+    if is_fish:
         snippet = generate_fish_snippet()
-        print(f"\n--- fish completion (save to ~/.config/fish/completions/update_status.py.fish) ---")
+        print("\n--- fish completion (save to ~/.config/fish/completions/update_status.py.fish) ---")
     else:
         snippet = generate_bash_snippet()
-        print(f"\n--- bash/zsh completion snippet (append to ~/.bashrc or ~/.zshrc) ---")
+        print("\n--- bash/zsh completion snippet (append to ~/.bashrc or ~/.zshrc) ---")
     print(snippet)
 
 
@@ -122,13 +121,12 @@ def main():
     group.add_argument("--bash", action="store_true", help="Install for bash (~/.bashrc)")
     group.add_argument("--zsh", action="store_true", help="Install for zsh (~/.zshrc)")
     group.add_argument("--fish", action="store_true", help="Install for fish (~/.config/fish/completions/)")
-    group.add_argument("--print", action="store_true", help="Print snippet only — no files modified")
+    group.add_argument("--print", dest="print_only", action="store_true", help="Print snippet only -- no files modified")
 
     args = parser.parse_args()
 
-    if args.print:
-        shell = "fish" if args.fish else "bash"
-        print_snippet(shell)
+    if args.print_only:
+        print_snippet(is_fish=args.fish)
         return
 
     if not check_argcomplete():
