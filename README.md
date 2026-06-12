@@ -32,14 +32,32 @@ Stop juggling multiple AI sessions. agentops gives Claude Code a **persistent ch
 
 ## 🚀 Quick Start
 
-### 1. Clone & set up
+### 🐳 Docker — zero-dependency (recommended)
+
+No Python install required:
 
 ```bash
-git clone https://github.com/your-github-username/agentops.git
+git clone https://github.com/baramgay/agentops.git
+cd agentops
+cp .env.example .env   # optional: fill in OPENAI_API_KEY for LLM features
+docker compose up
+# Dashboard → http://localhost:8000
+```
+
+> `agents/`, `wiki/`, `issues.json`, `agent_status.json`, and `projects.json` are mounted as volumes — edits on the host are reflected live and state persists across restarts.
+
+---
+
+### Manual setup
+
+#### 1. Clone & set up
+
+```bash
+git clone https://github.com/baramgay/agentops.git
 cd agentops
 ```
 
-### 2. Set the home path
+#### 2. Set the home path
 
 **Windows (PowerShell)**:
 ```powershell
@@ -52,23 +70,59 @@ echo 'export AGENTS_HOME="$HOME/agentops"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 3. Install dependencies & initialize
+#### 3. Install dependencies & initialize
 
 ```bash
 pip install -r requirements.txt
 python scripts/setup.py
 ```
 
-### 4. Start the server
+To validate your configuration at any time:
+
+```bash
+python scripts/validate_config.py
+```
+
+#### 4. Start the server
 
 ```bash
 python scripts/api_server.py
 # Dashboard → http://localhost:8000
 ```
 
-### 5. Add to your Claude Code project
+#### 5. Add to your Claude Code project
 
 Copy `CLAUDE.md` into your project root (or merge with your existing one) and configure the `AGENTS_HOME` path.
+
+---
+
+## ⌨️ Shell Completion
+
+Tab-complete agent IDs and status values in your terminal:
+
+```bash
+# 1. Install argcomplete (included in requirements.txt)
+pip install argcomplete
+
+# 2. One-time setup — choose your shell
+python scripts/install_completion.py --bash   # bash  → ~/.bashrc
+python scripts/install_completion.py --zsh    # zsh   → ~/.zshrc
+python scripts/install_completion.py --fish   # fish  → ~/.config/fish/completions/
+
+# 3. Reload your shell
+source ~/.bashrc   # or ~/.zshrc
+
+# 4. Tab away
+python scripts/update_status.py [TAB]
+# orchestrator  lead-data  lead-dev  eda-analyst  backend  frontend ...
+
+python scripts/update_status.py eda-analyst [TAB]
+# working  review  waiting  done  idle
+```
+
+> **Note**: Agent IDs are read live from `agent_status.json`, so newly added agents appear in completion automatically without any extra setup.
+>
+> To preview the snippet without making changes: `python scripts/install_completion.py --print`
 
 ---
 
@@ -86,10 +140,11 @@ agentops/
 │   └── ...              # 27 more agents
 ├── scripts/
 │   ├── api_server.py    # FastAPI server (dashboard + WebSocket + issue API)
-│   ├── update_status.py # CLI: declare agent working/done
-│   ├── issue_create.py  # CLI: create & query issues
-│   ├── wiki_cleanup.py  # Wiki MoC coverage maintenance
-│   └── setup.py         # First-time initialization
+│   ├── update_status.py      # CLI: declare agent working/done
+│   ├── install_completion.py # Shell tab-completion installer
+│   ├── issue_create.py       # CLI: create & query issues
+│   ├── wiki_cleanup.py       # Wiki MoC coverage maintenance
+│   └── setup.py              # First-time initialization
 ├── wiki/
 │   ├── 00_home.md       # Wiki index
 │   ├── MoC/             # Maps of Content (domain indexes)
