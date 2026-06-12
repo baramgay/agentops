@@ -1,0 +1,19 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # Live-editable: changes on the host are reflected immediately
+      - ./agents:/app/agents
+      - ./wiki:/app/wiki
+      # Persistent data files: state survives container restarts
+      - ./issues.json:/app/issues.json
+      - ./agent_status.json:/app/agent_status.json
+      - ./projects.json:/app/projects.json
+    environment:
+      - AGENTS_HOME=/app
+    env_file:
+      - path: .env
+        required: false   # copy .env.example → .env to enable LLM features
+    restart: unless-stopped
